@@ -1,6 +1,6 @@
 # 配置选项
 
-所有配置集中在 [`FreeAgentOptions`](api.md#freeagentoptions) 数据类中。
+所有配置集中在 [`LoongAgentOptions`](api.md#LoongAgentoptions) 数据类中。
 
 ## 字段一览
 
@@ -22,9 +22,9 @@
 ## LLM 提供方
 
 ```python
-from free_agent.llm import OpenAICompatibleProvider
+from loong_agent.llm import OpenAICompatibleProvider
 
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     llm=OpenAICompatibleProvider(
         base_url="https://api.openai.com/v1",
         api_key="sk-...",
@@ -39,18 +39,18 @@ options = FreeAgentOptions(
 
 ```python
 # 允许全部
-options = FreeAgentOptions(allowed_tools=["*"])
+options = LoongAgentOptions(allowed_tools=["*"])
 
 # 仅允许部分内置工具 + 某个 MCP 工具族
-options = FreeAgentOptions(allowed_tools=["Read", "Grep", "mcp__filesystem__*"])
+options = LoongAgentOptions(allowed_tools=["Read", "Grep", "mcp__filesystem__*"])
 ```
 
 ## 权限策略
 
 ```python
-from free_agent.permissions import PermissionPolicy
+from loong_agent.permissions import PermissionPolicy
 
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     permission_policy=PermissionPolicy(
         allow=["Read", "Write", "Grep", "Glob"],
         deny=["Bash"],
@@ -62,7 +62,7 @@ options = FreeAgentOptions(
 ## 自定义系统提示
 
 ```python
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     llm=provider,
     system_prompt="You are a senior Python engineer. Be concise.",
 )

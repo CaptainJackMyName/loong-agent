@@ -1,4 +1,4 @@
-"""Quick-start example for the Free-Agent-SDK.
+"""Quick-start example for the loong-agent.
 
 Run with::
 
@@ -6,11 +6,11 @@ Run with::
 """
 
 import asyncio
+import os
 
-from free_agent import FreeAgentOptions, query
-from free_agent.llm import OpenAICompatibleProvider
-from free_agent.tools import tool
-
+from loong_agent import LoongAgentOptions, query
+from loong_agent.llm import OpenAICompatibleProvider
+from loong_agent.tools import tool
 
 @tool("Add", "Add two integers together.")
 async def add(a: int, b: int) -> str:
@@ -18,11 +18,14 @@ async def add(a: int, b: int) -> str:
 
 
 async def main() -> None:
-    options = FreeAgentOptions(
+    base_url: str = os.environ.get("LOONG_AGENT_BASE_URL", "http://127.0.0.1:8000")
+    api_key: str = os.environ.get("LOONG_AGENT_API_KEY", "EMPTY")
+    model: str = os.environ.get("LOONG_AGENT_MODEL", "gpt-5.6-terra")
+    options = LoongAgentOptions(
         llm=OpenAICompatibleProvider(
-            base_url="https://api.openai.com/v1",
-            api_key="sk-...",  # replace with your key
-            model="gpt-4o-mini",
+            base_url=base_url,
+            api_key=api_key,  # replace with your key
+            model=model,
         ),
         allowed_tools=["Read", "Write", "Bash", "Grep", "Glob"],
         max_turns=20,

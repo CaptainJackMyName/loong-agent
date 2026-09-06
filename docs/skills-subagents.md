@@ -37,13 +37,13 @@ Front-matter 中的 `name` 与 `description` 用于注册与描述。
 
 ```python
 # 启用所有发现的 Skills
-options = FreeAgentOptions(skills="all")
+options = LoongAgentOptions(skills="all")
 
 # 仅启用特定 Skills
-options = FreeAgentOptions(skills=["pdf", "docx"])
+options = LoongAgentOptions(skills=["pdf", "docx"])
 
 # 禁用所有 Skills（默认）
-options = FreeAgentOptions(skills=[])
+options = LoongAgentOptions(skills=[])
 ```
 
 启用后，循环中会注册一个 `Skill` 工具，模型可调用它加载某技能的指令内容。
@@ -55,9 +55,9 @@ options = FreeAgentOptions(skills=[])
 ### 定义
 
 ```python
-from free_agent import AgentDefinition
+from loong_agent import AgentDefinition
 
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     llm=provider,
     agents={
         "code-reviewer": AgentDefinition(
@@ -89,7 +89,7 @@ options = FreeAgentOptions(
 编排器支持并发运行多个子智能体：
 
 ```python
-from free_agent.subagents import SubagentOrchestrator
+from loong_agent.subagents import SubagentOrchestrator
 
 orchestrator = SubagentOrchestrator(options)
 results = await orchestrator.run_parallel([

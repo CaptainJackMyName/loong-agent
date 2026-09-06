@@ -1,4 +1,4 @@
-# Free-Agent-SDK 项目开发计划书
+# loong-agent 项目开发计划书
 
 > 基于 ReAct 论文理论框架的自主 Agent SDK 实现
 
@@ -8,7 +8,7 @@
 
 ### 1.1 项目背景
 
-Free-Agent-SDK 是一个开源的自主 AI Agent 开发套件，参考 ReAct（Reasoning + Acting）论文的理论框架构建。该项目旨在为开发者提供一个可自由定制、完全开源、不依赖任何商业闭源二进制文件的 Agent SDK。
+loong-agent 是一个开源的自主 AI Agent 开发套件，参考 ReAct（Reasoning + Acting）论文的理论框架构建。该项目旨在为开发者提供一个可自由定制、完全开源、不依赖任何商业闭源二进制文件的 Agent SDK。
 
 ### 1.2 设计目标
 
@@ -20,8 +20,8 @@ Free-Agent-SDK 是一个开源的自主 AI Agent 开发套件，参考 ReAct（R
 
 ### 1.3 项目信息
 
-- **项目名称**：free-agent-sdk
-- **源码路径**：`src/free_agent`
+- **项目名称**：loong-agent
+- **源码路径**：`src/loong_agent`
 - **包管理**：uv（已通过 `uv init` 初始化）
 
 ---
@@ -58,7 +58,7 @@ Free Agent SDK 的核心执行循环：
 ```
 ┌─────────────────────────────────────────────────────────────────────┐
 │                         Public API Layer                            │
-│              query() / FreeAgentClient / Streaming                  │
+│              query() / LoongAgentClient / Streaming                  │
 ├─────────────────────────────────────────────────────────────────────┤
 │                        Agent Loop Engine                            │
 │         ┌─────────┐   ┌─────────┐   ┌─────────┐                    │
@@ -85,9 +85,9 @@ Free Agent SDK 的核心执行循环：
 ### 3.2 模块依赖关系
 
 ```
-free_agent/
+loong_agent/
 ├── __init__.py          # 公开 API 导出
-├── client.py            # FreeAgentClient 主客户端
+├── client.py            # LoongAgentClient 主客户端
 ├── loop/                # Agent Loop 引擎
 │   ├── __init__.py
 │   ├── engine.py        # 主循环控制器
@@ -140,7 +140,7 @@ free_agent/
 └── types/               # 类型定义
     ├── __init__.py
     ├── messages.py      # Message 类型 (System, Assistant, User, Result)
-    └── options.py       # 配置选项 (FreeAgentOptions)
+    └── options.py       # 配置选项 (LoongAgentOptions)
 ```
 
 ---
@@ -157,12 +157,12 @@ free_agent/
 # 主查询接口
 async def query(
     prompt: str,
-    options: FreeAgentOptions = None
+    options: LoongAgentOptions = None
 ) -> AsyncIterator[Message]:
     """流式执行 Agent 任务，逐步返回消息"""
     
 # 客户端类
-class FreeAgentClient:
+class LoongAgentClient:
     async def send(self, prompt: str) -> None
     async def receive(self) -> AsyncIterator[Message]
     async def interrupt(self) -> None
@@ -232,7 +232,7 @@ class OpenAICompatibleProvider(LLMProvider):
 **配置示例**：
 
 ```python
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     llm=OpenAICompatibleProvider(
         base_url="https://api.openai.com/v1",
         api_key="sk-...",
@@ -240,7 +240,7 @@ options = FreeAgentOptions(
     )
 )
 # 或使用其他兼容服务
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     llm=OpenAICompatibleProvider(
         base_url="http://localhost:1234/v1",  # Local LLM
         api_key="not-needed",
@@ -338,7 +338,7 @@ MCP（Model Context Protocol）是连接 AI Agent 到外部工具和数据源的
 **配置接口**：
 
 ```python
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     mcp_servers={
         "filesystem": {
             "type": "stdio",
@@ -402,13 +402,13 @@ class SkillExecutor:
 
 ```python
 # 启用所有发现的 Skills
-options = FreeAgentOptions(skills="all")
+options = LoongAgentOptions(skills="all")
 
 # 仅启用特定 Skills
-options = FreeAgentOptions(skills=["pdf", "docx"])
+options = LoongAgentOptions(skills=["pdf", "docx"])
 
 # 禁用所有 Skills
-options = FreeAgentOptions(skills=[])
+options = LoongAgentOptions(skills=[])
 ```
 
 ### 4.7 子智能体系统（`subagents/`）
@@ -435,7 +435,7 @@ class AgentDefinition:
     parallel: bool = False    # 是否允许并行执行
 
 # 使用示例
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     agents={
         "code-reviewer": AgentDefinition(
             description="Expert code reviewer for security and style",
@@ -482,7 +482,7 @@ my-plugin/
 **加载插件**：
 
 ```python
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     plugins=[
         {"type": "local", "path": "./my-plugin"},
         {"type": "local", "path": "/absolute/path/to/another-plugin"}
@@ -515,9 +515,9 @@ claude_agent_sdk.<layer>.<operation>
 ```python
 from opentelemetry.trace import Tracer
 
-class FreeAgentTracer:
+class LoongAgentTracer:
     def __init__(self, tracer: Optional[Tracer] = None):
-        self._tracer = tracer or get_tracer("free_agent_sdk")
+        self._tracer = tracer or get_tracer("loong")
     
     def start_span(self, name: str, attributes: Dict = None):
         """启动一个新的 Span"""
@@ -533,12 +533,12 @@ class FreeAgentTracer:
 
 | Span 名称 | 描述 |
 |-----------|------|
-| `free_agent_sdk.loop.turn` | 单次 Turn 执行 |
-| `free_agent_sdk.llm.request` | LLM API 调用 |
-| `free_agent_sdk.tool.execute` | 工具执行 |
-| `free_agent_sdk.hook.run` | 钩子执行 |
-| `free_agent_sdk.mcp.call` | MCP 工具调用 |
-| `free_agent_sdk.subagent.run` | 子智能体执行 |
+| `loong.loop.turn` | 单次 Turn 执行 |
+| `loong.llm.request` | LLM API 调用 |
+| `loong.tool.execute` | 工具执行 |
+| `loong.hook.run` | 钩子执行 |
+| `loong.mcp.call` | MCP 工具调用 |
+| `loong.subagent.run` | 子智能体执行 |
 
 ### 4.10 权限系统（`permissions/`）
 
@@ -651,7 +651,7 @@ class PermissionManager:
 #### Phase 8：链路追踪（3 天）
 
 - [ ] 集成 OpenTelemetry SDK
-- [ ] 实现 `FreeAgentTracer`
+- [ ] 实现 `LoongAgentTracer`
 - [ ] 在关键路径添加 Span
 - [ ] 实现 Span 导出器配置
 - [ ] 测试：追踪数据输出
@@ -688,11 +688,11 @@ class PermissionManager:
 
 ```python
 import asyncio
-from free_agent import query, FreeAgentOptions
-from free_agent.llm import OpenAICompatibleProvider
+from loong_agent import query, LoongAgentOptions
+from loong_agent.llm import OpenAICompatibleProvider
 
 async def main():
-    options = FreeAgentOptions(
+    options = LoongAgentOptions(
         llm=OpenAICompatibleProvider(
             base_url="https://api.openai.com/v1",
             api_key="sk-...",
@@ -719,9 +719,9 @@ async def main():
 
 ```python
 # 使用客户端进行流式交互
-from free_agent import FreeAgentClient
+from loong_agent import LoongAgentClient
 
-client = FreeAgentClient(options=options)
+client = LoongAgentClient(options=options)
 await client.send("Analyze this project structure")
 
 async for message in client.receive():
@@ -748,7 +748,7 @@ await client.close()
 
 ## 九、总结
 
-Free-Agent-SDK 是一个**完全开源、模型无关、纯代码实现**的自主 Agent 开发套件。它融合了：
+loong 是一个**完全开源、模型无关、纯代码实现**的自主 Agent 开发套件。它融合了：
 
 1. **Agent SDK 的设计理念**：完整的 Agent Loop、工具系统、钩子、MCP、Skills、子智能体、插件、权限、追踪
 2. **ReAct 论文的理论框架**：推理与行动的协同交织

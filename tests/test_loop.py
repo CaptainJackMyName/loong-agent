@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from free_agent import FreeAgentOptions, query
-from free_agent.llm.base import ChatResponse, LLMProvider
-from free_agent.types.messages import ToolCall, Usage
+from loong_agent import LoongAgentOptions, query
+from loong_agent.llm.base import ChatResponse, LLMProvider
+from loong_agent.types.messages import ToolCall, Usage
 
 
 class MockLLM(LLMProvider):
@@ -35,7 +35,7 @@ class MockLLM(LLMProvider):
 
 @pytest.mark.asyncio
 async def test_react_loop_runs_tools_and_terminates():
-    options = FreeAgentOptions(llm=MockLLM(), allowed_tools=["Glob"], max_turns=5)
+    options = LoongAgentOptions(llm=MockLLM(), allowed_tools=["Glob"], max_turns=5)
     messages = [m async for m in query("list files", options=options)]
 
     assert messages[0].type == "system"
@@ -56,7 +56,7 @@ async def test_unknown_tool_is_reported_as_error():
                 model="mock-model",
             )
 
-    options = FreeAgentOptions(llm=BadLLM(), allowed_tools=["*"], max_turns=2)
+    options = LoongAgentOptions(llm=BadLLM(), allowed_tools=["*"], max_turns=2)
     messages = [m async for m in query("go", options=options)]
     user_msg = next(m for m in messages if m.type == "user")
     assert user_msg.tool_results[0].is_error

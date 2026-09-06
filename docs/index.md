@@ -1,4 +1,4 @@
-# Free-Agent-SDK
+# loong
 
 Agent framework for all —— 一个**完全开源、模型无关、纯代码实现**的自主 AI Agent SDK。
 
@@ -32,11 +32,12 @@ pip install -e .
 
 ```python
 import asyncio
-from free_agent import FreeAgentOptions, query
-from free_agent.llm import OpenAICompatibleProvider
+
+from loong_agent import LoongAgentOptions, query
+from loong_agent.llm import OpenAICompatibleProvider
 
 async def main():
-    options = FreeAgentOptions(
+    options = LoongAgentOptions(
         llm=OpenAICompatibleProvider(
             base_url="https://api.openai.com/v1",
             api_key="sk-...",
@@ -54,7 +55,7 @@ asyncio.run(main())
 ## 架构
 
 ```
-Public API (query / FreeAgentClient)
+Public API (query / LoongAgentClient)
             │
      Agent Loop Engine (Think → Act → Observe)
             │
@@ -74,7 +75,7 @@ Public API (query / FreeAgentClient)
 ## 文档导航
 
 - [快速开始](quickstart.md)：三步跑通第一个 Agent
-- [配置选项](configuration.md)：`FreeAgentOptions` 全部字段
+- [配置选项](configuration.md)：`LoongAgentOptions` 全部字段
 - [工具系统](tools.md)：内置工具与自定义工具
 - [钩子与权限](hooks.md)：事件拦截与权限决策
 - [MCP 网关](mcp.md)：接入外部工具

@@ -18,7 +18,7 @@
 使用 `@tool` 装饰器，参数类型注解会自动推导为 JSON Schema：
 
 ```python
-from free_agent.tools import tool
+from loong_agent.tools import tool
 
 @tool("search_web", "Search the web for information")
 async def search_web(query: str, max_results: int = 10) -> str:
@@ -29,7 +29,7 @@ async def search_web(query: str, max_results: int = 10) -> str:
 ## 手动指定 Schema
 
 ```python
-from free_agent.tools import Tool
+from loong_agent.tools import Tool
 
 async def handler(a: int) -> str:
     return str(a)
@@ -56,11 +56,11 @@ custom = Tool(
 ## 注册与过滤
 
 ```python
-from free_agent.tools import ToolRegistry
+from loong_agent.tools import ToolRegistry
 
 registry = ToolRegistry()
 registry.register(custom)
 registry.filter(["mcp__filesystem__*"])   # 通配符过滤
 ```
 
-内置工具通过 `FreeAgentOptions.allowed_tools` 控制是否注册到循环中。
+内置工具通过 `LoongAgentOptions.allowed_tools` 控制是否注册到循环中。

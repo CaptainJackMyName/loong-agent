@@ -4,8 +4,8 @@ from __future__ import annotations
 
 import pytest
 
-from free_agent.skills.executor import SkillExecutor
-from free_agent.skills.loader import SkillLoader
+from loong.skills.executor import SkillExecutor
+from loong.skills.loader import SkillLoader
 
 
 def test_skill_loader_parse_frontmatter(tmp_path):

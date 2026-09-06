@@ -21,7 +21,7 @@
 钩子回调可以声明它需要的参数子集（`input_data`、`tool_use_id`、`context`）：
 
 ```python
-from free_agent.hooks import HookOutput
+from loong_agent.hooks import HookOutput
 
 async def security_hook(input_data, tool_use_id, context):
     if input_data.get("tool_name") == "Bash":
@@ -32,9 +32,9 @@ async def security_hook(input_data, tool_use_id, context):
 ### 注册钩子
 
 ```python
-from free_agent import FreeAgentOptions
+from loong_agent import LoongAgentOptions
 
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     llm=provider,
     hooks={
         "PreToolUse": [security_hook],
@@ -58,7 +58,7 @@ options = FreeAgentOptions(
 ### 权限策略
 
 ```python
-from free_agent.permissions import PermissionPolicy
+from loong_agent.permissions import PermissionPolicy
 
 policy = PermissionPolicy(
     allow=["Read", "Write", "mcp__filesystem__*"],

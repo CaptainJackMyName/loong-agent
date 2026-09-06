@@ -10,11 +10,12 @@ pip install -e .
 
 ```python
 import asyncio
-from free_agent import FreeAgentOptions, query
-from free_agent.llm import OpenAICompatibleProvider
+
+from loong_agent import LoongAgentOptions, query
+from loong_agent.llm import OpenAICompatibleProvider
 
 async def main():
-    options = FreeAgentOptions(
+    options = LoongAgentOptions(
         llm=OpenAICompatibleProvider(
             base_url="https://api.openai.com/v1",
             api_key="sk-...",        # 替换为你的密钥
@@ -41,7 +42,7 @@ asyncio.run(main())
 任意 OpenAI-compatible 接口均可接入：
 
 ```python
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     llm=OpenAICompatibleProvider(
         base_url="http://localhost:1234/v1",   # LM Studio / llama.cpp
         api_key="not-needed",
@@ -53,9 +54,9 @@ options = FreeAgentOptions(
 ## 4. 流式交互（客户端模式）
 
 ```python
-from free_agent import FreeAgentClient
+from loong_agent import LoongAgentClient
 
-client = FreeAgentClient(options=options)
+client = LoongAgentClient(options=options)
 await client.send("Analyze this project structure")
 
 async for message in client.receive():

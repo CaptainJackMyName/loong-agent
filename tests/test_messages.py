@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from free_agent.types.messages import (
+from loong.types.messages import (
     Message,
     ToolCall,
     ToolResult,

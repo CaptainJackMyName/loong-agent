@@ -1,7 +1,7 @@
-site_name: Free-Agent-SDK
+site_name: loong-agent
 site_description: 开源、模型无关、纯代码实现的自主 AI Agent SDK
-site_author: free-agent-sdk
-repo_url: https://github.com/free-agent-sdk/free-agent-sdk
+site_author: loong-agent
+repo_url: https://github.com/loong-agent/loong-agent
 theme:
   name: readthedocs
   locale: zh_CN

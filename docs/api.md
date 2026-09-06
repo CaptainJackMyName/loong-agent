@@ -5,26 +5,26 @@
 ### `query`
 
 ```python
-async def query(prompt: str, options: FreeAgentOptions = None) -> AsyncIterator[Message]
+async def query(prompt: str, options: LoongAgentOptions = None) -> AsyncIterator[Message]
 ```
 
 流式执行 Agent 任务，逐条返回消息。
 
-### `FreeAgentClient`
+### `LoongAgentClient`
 
 ```python
-class FreeAgentClient:
+class LoongAgentClient:
     async def send(self, prompt: str) -> None
     async def receive(self) -> AsyncIterator[Message]
     async def interrupt(self) -> None
     async def close(self) -> None
 ```
 
-### `FreeAgentOptions`
+### `LoongAgentOptions`
 
 核心配置数据类，字段见 [配置选项](configuration.md)。
 
-## 类型（`free_agent.types`）
+## 类型（`loong_agent.types`）
 
 | 类型 | 说明 |
 |------|------|
@@ -33,7 +33,7 @@ class FreeAgentClient:
 | `ToolResult` | 工具执行结果（tool_use_id / name / content / is_error） |
 | `Usage` | token 用量与成本 |
 
-## LLM（`free_agent.llm`）
+## LLM（`loong_agent.llm`）
 
 | 类型 | 说明 |
 |------|------|
@@ -42,7 +42,7 @@ class FreeAgentClient:
 | `ChatResponse` | 归一化响应（text / tool_calls / usage） |
 | `ToolDefinition` | 工具描述（name / description / input_schema） |
 
-## 工具（`free_agent.tools`）
+## 工具（`loong_agent.tools`）
 
 | 类型 | 说明 |
 |------|------|
@@ -50,7 +50,7 @@ class FreeAgentClient:
 | `tool` | 装饰器，自动推导 JSON Schema |
 | `ToolRegistry` | 注册表，支持通配符过滤 |
 
-## 钩子（`free_agent.hooks`）
+## 钩子（`loong_agent.hooks`）
 
 | 类型 | 说明 |
 |------|------|
@@ -59,7 +59,7 @@ class FreeAgentClient:
 | `HookRegistry` | 注册与分发 |
 | `HookOutput` | 回调返回值 |
 
-## 权限（`free_agent.permissions`）
+## 权限（`loong_agent.permissions`）
 
 | 类型 | 说明 |
 |------|------|
@@ -67,7 +67,7 @@ class FreeAgentClient:
 | `PermissionManager` | `check(tool, context) -> PermissionResult` |
 | `PermissionDecision` | ALLOW / DENY / ASK |
 
-## MCP（`free_agent.mcp`）
+## MCP（`loong_agent.mcp`）
 
 | 类型 | 说明 |
 |------|------|
@@ -75,7 +75,7 @@ class FreeAgentClient:
 | `MCPClient` | JSON-RPC 客户端 |
 | `StdioTransport` / `HttpTransport` / `SseTransport` | 传输实现 |
 
-## Skills（`free_agent.skills`）
+## Skills（`loong_agent.skills`）
 
 | 类型 | 说明 |
 |------|------|
@@ -83,7 +83,7 @@ class FreeAgentClient:
 | `SkillLoader` | 发现与解析 SKILL.md |
 | `SkillExecutor` | 执行技能 |
 
-## 子智能体（`free_agent.subagents`）
+## 子智能体（`loong_agent.subagents`）
 
 | 类型 | 说明 |
 |------|------|
@@ -91,7 +91,7 @@ class FreeAgentClient:
 | `SubagentRunner` | 独立上下文运行 |
 | `SubagentOrchestrator` | 编排与 `Agent` 工具 |
 
-## 插件（`free_agent.plugins`）
+## 插件（`loong_agent.plugins`）
 
 | 类型 | 说明 |
 |------|------|
@@ -99,9 +99,9 @@ class FreeAgentClient:
 | `PluginLoader` | 组件发现 |
 | `PluginManager` | 生命周期与聚合 |
 
-## 追踪（`free_agent.tracing`）
+## 追踪（`loong_agent.tracing`）
 
 | 类型 | 说明 |
 |------|------|
-| `FreeAgentTracer` | OTel 封装（可降级） |
+| `LoongAgentTracer` | OTel 封装（可降级） |
 | `configure_tracing` | 配置导出器 |

@@ -7,11 +7,11 @@ from typing import Any, Dict, Optional
 import httpx
 import pytest
 
-from free_agent.mcp.client import MCPClient
-from free_agent.mcp.gateway import MCPGateway
-from free_agent.mcp.transports.base import Transport
-from free_agent.mcp.transports.sse import SseTransport, parse_sse
-from free_agent.types.options import MCPServerConfig
+from loong.mcp.client import MCPClient
+from loong.mcp.gateway import MCPGateway
+from loong.mcp.transports.base import Transport
+from loong.mcp.transports.sse import SseTransport, parse_sse
+from loong.types.options import MCPServerConfig
 
 
 class FakeTransport(Transport):

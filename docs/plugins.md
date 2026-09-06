@@ -32,9 +32,9 @@ my-plugin/
 ## 加载插件
 
 ```python
-from free_agent import FreeAgentOptions
+from loong_agent import LoongAgentOptions
 
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     llm=provider,
     plugins=[
         {"type": "local", "path": "./my-plugin"},
@@ -59,8 +59,8 @@ You are a code reviewer...
 ## 直接使用插件管理器
 
 ```python
-from free_agent.plugins import PluginManager
-from free_agent.types.options import PluginRef
+from loong_agent.plugins import PluginManager
+from loong_agent.types.options import PluginRef
 
 manager = PluginManager()
 manager.load_all([PluginRef(type="local", path="./my-plugin")])

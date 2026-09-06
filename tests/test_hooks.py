@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from free_agent.hooks import HookContext, HookEvent, HookMatcher, HookOutput, HookRegistry
+from loong.hooks import HookContext, HookEvent, HookMatcher, HookOutput, HookRegistry
 
 
 def test_matcher_filtering():

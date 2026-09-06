@@ -4,10 +4,10 @@ from __future__ import annotations
 
 import json
 
-from free_agent.plugins.lifecycle import PluginManager
-from free_agent.plugins.loader import PluginLoader
-from free_agent.plugins.manifest import PluginManifest
-from free_agent.types.options import PluginRef
+from loong.plugins.lifecycle import PluginManager
+from loong.plugins.loader import PluginLoader
+from loong.plugins.manifest import PluginManifest
+from loong.types.options import PluginRef
 
 
 def test_manifest_load_from_root(tmp_path):

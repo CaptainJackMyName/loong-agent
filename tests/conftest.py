@@ -7,8 +7,8 @@ from pathlib import Path
 
 import pytest
 
-from free_agent.llm.base import ChatResponse, LLMProvider
-from free_agent.types.messages import Usage
+from loong.llm.base import ChatResponse, LLMProvider
+from loong.types.messages import Usage
 
 SRC = Path(__file__).resolve().parents[1] / "src"
 if str(SRC) not in sys.path:

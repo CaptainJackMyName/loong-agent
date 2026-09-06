@@ -14,9 +14,9 @@ MCP（Model Context Protocol）将 Agent 连接到外部工具和数据源。SDK
 ## 配置示例
 
 ```python
-from free_agent import FreeAgentOptions
+from loong_agent import LoongAgentOptions
 
-options = FreeAgentOptions(
+options = LoongAgentOptions(
     llm=provider,
     mcp_servers={
         "filesystem": {
@@ -43,8 +43,8 @@ MCP 工具以 `mcp__<server>__<tool>` 命名，通过 `allowed_tools` 过滤。
 ## 直接使用网关
 
 ```python
-from free_agent.mcp import MCPGateway
-from free_agent.types.options import MCPServerConfig
+from loong_agent.mcp import MCPGateway
+from loong_agent.types.options import MCPServerConfig
 
 gateway = MCPGateway()
 await gateway.connect("filesystem", MCPServerConfig(type="stdio", command="npx", args=["-y", "..."]))
@@ -62,7 +62,7 @@ SSE 传输实现了 MCP "Streamable HTTP" 规范：
 - 支持旧式 `endpoint` 事件动态切换消息端点。
 
 ```python
-from free_agent.mcp import SseTransport
+from loong_agent.mcp import SseTransport
 
 transport = SseTransport(
     url="https://example.com/mcp",

@@ -1,4 +1,4 @@
-# free-agent-sdk
+# loong-agent
 
 Agent framework for all — a fully open-source, model-agnostic, pure-code autonomous AI Agent SDK.
 
@@ -21,11 +21,11 @@ pip install -e .
 
 ```python
 import asyncio
-from free_agent import FreeAgentOptions, query
-from free_agent.llm import OpenAICompatibleProvider
+from loong_agent import LoongAgentOptions, query
+from loong_agent.llm import OpenAICompatibleProvider
 
 async def main():
-    options = FreeAgentOptions(
+    options = LoongAgentOptions(
         llm=OpenAICompatibleProvider(
             base_url="https://api.openai.com/v1",
             api_key="sk-...",
@@ -48,8 +48,8 @@ See [`examples/`](examples/) for more examples.
 ## Project Structure
 
 ```
-src/free_agent/
-├── client.py          # FreeAgentClient / query entry point
+src/loong_agent/
+├── client.py          # LoongAgentClient / query entry point
 ├── loop/              # Agent Loop engine (ReAct loop)
 ├── llm/               # LLM adapter layer (OpenAI-compatible)
 ├── tools/             # Tool system + built-in tools (Read/Write/Edit/Bash/Grep/Glob)

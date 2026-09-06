@@ -1,12 +1,12 @@
-"""Tests for FreeAgentOptions normalization."""
+"""Tests for LoongAgentOptions normalization."""
 
 from __future__ import annotations
 
-from free_agent.types.options import FreeAgentOptions, MCPServerConfig, PluginRef
+from loong_agent.types.options import LoongAgentOptions, MCPServerConfig, PluginRef
 
 
 def test_normalize_mcp_servers_from_dicts():
-    options = FreeAgentOptions(
+    options = LoongAgentOptions(
         mcp_servers={"fs": {"type": "stdio", "command": "npx", "args": ["-y", "x"]}}
     )
     normalized = options.normalize_mcp_servers()
@@ -17,17 +17,17 @@ def test_normalize_mcp_servers_from_dicts():
 
 def test_normalize_mcp_servers_passthrough():
     cfg = MCPServerConfig(type="http", url="https://example.com/mcp")
-    options = FreeAgentOptions(mcp_servers={"remote": cfg})
+    options = LoongAgentOptions(mcp_servers={"remote": cfg})
     assert options.normalize_mcp_servers()["remote"] is cfg
 
 
 def test_normalize_plugins():
-    options = FreeAgentOptions(plugins=[{"type": "local", "path": "./my-plugin"}])
+    options = LoongAgentOptions(plugins=[{"type": "local", "path": "./my-plugin"}])
     refs = options.normalize_plugins()
     assert isinstance(refs[0], PluginRef)
     assert refs[0].path == "./my-plugin"
 
 
 def test_default_allowed_tools_is_wildcard():
-    options = FreeAgentOptions()
+    options = LoongAgentOptions()
     assert options.allowed_tools == ["*"]
