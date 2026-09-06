@@ -3,7 +3,8 @@
 from __future__ import annotations
 
 import asyncio
-from typing import AsyncIterator, Optional
+
+from collections.abc import AsyncIterator
 
 from loong_agent.loop.engine import AgentLoop
 from loong_agent.types.messages import Message
@@ -12,7 +13,7 @@ from loong_agent.types.options import LoongAgentOptions
 
 async def query(
     prompt: str,
-    options: Optional[LoongAgentOptions] = None,
+    options: LoongAgentOptions | None = None,
 ) -> AsyncIterator[Message]:
     """Stream the execution of an agent task, yielding each message in turn.
 
@@ -34,11 +35,11 @@ async def query(
 class LoongAgentClient:
     """Stateful client supporting send/receive streaming and interrupts."""
 
-    def __init__(self, options: Optional[LoongAgentOptions] = None) -> None:
+    def __init__(self, options: LoongAgentOptions | None = None) -> None:
         self.options = options or LoongAgentOptions()
         self.loop = AgentLoop(self.options)
         self._queue: asyncio.Queue = asyncio.Queue()
-        self._task: Optional[asyncio.Task] = None
+        self._task: asyncio.Task | None = None
 
     async def send(self, prompt: str) -> None:
         """Start processing ``prompt``; results are read via :meth:`receive`."""
