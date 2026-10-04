@@ -4,12 +4,12 @@ from __future__ import annotations
 
 from typing import Any, Dict, List
 
-from loong.mcp.client import MCPClient, MCPTool
-from loong.mcp.transports.base import Transport
-from loong.mcp.transports.http import HttpTransport
-from loong.mcp.transports.sse import SseTransport
-from loong.mcp.transports.stdio import StdioTransport
-from loong.types.options import MCPServerConfig
+from loong_agent.mcp.client import MCPClient, MCPTool
+from loong_agent.mcp.transports.base import Transport
+from loong_agent.mcp.transports.http import HttpTransport
+from loong_agent.mcp.transports.sse import SseTransport
+from loong_agent.mcp.transports.stdio import StdioTransport
+from loong_agent.types.options import MCPServerConfig
 
 
 class MCPGateway:

@@ -6,7 +6,7 @@ import json
 from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional
 
-from loong.mcp.transports.base import Transport
+from loong_agent.mcp.transports.base import Transport
 
 MCP_PROTOCOL_VERSION = "2024-11-05"
 

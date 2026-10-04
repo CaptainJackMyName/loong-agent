@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from loong.llm.base import ToolDefinition
-from loong.llm.openai_compatible import OpenAICompatibleProvider
-from loong.types.messages import Message, ToolCall, ToolResult
+from loong_agent.llm.base import ToolDefinition
+from loong_agent.llm.openai_compatible import OpenAICompatibleProvider
+from loong_agent.types.messages import Message, ToolCall, ToolResult
 
 
 @pytest.fixture

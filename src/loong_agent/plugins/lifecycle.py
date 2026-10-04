@@ -5,11 +5,11 @@ from __future__ import annotations
 import logging
 from typing import Dict, List, Optional
 
-from loong.plugins.loader import LoadedPlugin, PluginLoader
-from loong.skills.loader import SkillLoader
-from loong.skills.loader import Skill
-from loong.subagents.definition import AgentDefinition
-from loong.types.options import MCPServerConfig, PluginRef
+from loong_agent.plugins.loader import LoadedPlugin, PluginLoader
+from loong_agent.skills.loader import SkillLoader
+from loong_agent.skills.loader import Skill
+from loong_agent.subagents.definition import AgentDefinition
+from loong_agent.types.options import MCPServerConfig, PluginRef
 
 logger = logging.getLogger(__name__)
 

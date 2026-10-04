@@ -8,8 +8,8 @@ from __future__ import annotations
 
 from typing import Any, Dict, List, Optional, Union
 
-from loong.skills.loader import Skill, SkillLoader
-from loong.tools.base import Tool, tool
+from loong_agent.skills.loader import Skill, SkillLoader
+from loong_agent.tools.base import Tool, tool
 
 
 class SkillExecutor:

@@ -14,7 +14,7 @@ from typing import Any, AsyncIterator, Dict, Optional
 
 import httpx
 
-from loong.mcp.transports.base import Transport
+from loong_agent.mcp.transports.base import Transport
 
 logger = logging.getLogger(__name__)
 

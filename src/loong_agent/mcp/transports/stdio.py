@@ -7,7 +7,7 @@ import json
 import os
 from typing import Any, Dict, List, Optional
 
-from loong.mcp.transports.base import Transport
+from loong_agent.mcp.transports.base import Transport
 
 
 class StdioTransport(Transport):

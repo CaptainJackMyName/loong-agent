@@ -7,7 +7,7 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional
 
-from loong.skills.discovery import discover_skills
+from loong_agent.skills.discovery import discover_skills
 
 
 @dataclass

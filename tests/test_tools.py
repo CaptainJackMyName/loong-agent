@@ -4,9 +4,9 @@ from __future__ import annotations
 
 import pytest
 
-from loong.tools import Tool, ToolRegistry, tool
-from loong.tools.builtin.bash import bash
-from loong.tools.builtin.files import (
+from loong_agent.tools import Tool, ToolRegistry, tool
+from loong_agent.tools.builtin.bash import bash
+from loong_agent.tools.builtin.files import (
     edit_file,
     glob_files,
     grep,

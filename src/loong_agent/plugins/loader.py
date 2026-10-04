@@ -7,9 +7,9 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any, Dict, List, Optional
 
-from loong.plugins.manifest import PluginManifest
-from loong.subagents.definition import AgentDefinition
-from loong.types.options import MCPServerConfig
+from loong_agent.plugins.manifest import PluginManifest
+from loong_agent.subagents.definition import AgentDefinition
+from loong_agent.types.options import MCPServerConfig
 
 
 @dataclass

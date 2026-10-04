@@ -4,7 +4,7 @@ from __future__ import annotations
 
 import pytest
 
-from loong.permissions import PermissionDecision, PermissionManager, PermissionPolicy
+from loong_agent.permissions import PermissionDecision, PermissionManager, PermissionPolicy
 
 
 @pytest.mark.asyncio
