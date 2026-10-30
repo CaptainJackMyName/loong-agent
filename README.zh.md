@@ -33,7 +33,7 @@ async def main():
         ),
         allowed_tools=["Read", "Write", "Bash", "Grep", "Glob"],
     )
-
+    
     async for message in query("Review the code in src/", options=options):
         if message.type == "assistant":
             print(f"Agent: {message.text}")

@@ -39,7 +39,12 @@ async def test_react_loop_runs_tools_and_terminates():
     messages = [m async for m in query("list files", options=options)]
 
     assert messages[0].type == "system"
-    assert any(m.type == "assistant" and m.has_tool_calls() for m in messages)
+    # New semantics: intermediate (tool-calling) assistant messages are not
+    # surfaced; only the final user-facing assistant message is yielded.
+    assert not any(m.type == "assistant" and m.has_tool_calls() for m in messages)
+    final_assistant = [m for m in messages if m.type == "assistant"]
+    assert len(final_assistant) == 1
+    assert final_assistant[0].text == "done"
     assert any(m.type == "user" and m.tool_results for m in messages)
     assert messages[-1].type == "result"
     assert not messages[-1].is_error

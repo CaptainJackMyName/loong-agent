@@ -17,6 +17,10 @@ async def query(
 ) -> AsyncIterator[Message]:
     """Stream the execution of an agent task, yielding each message in turn.
 
+    Assistant messages are only yielded for the final, user-facing output
+    (when the agent exits the ReAct loop); intermediate turns carrying tool
+    calls surface as ``user`` tool-result messages instead.
+
     Example::
 
         async for message in query("Summarize src/", options=options):

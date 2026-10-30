@@ -9,9 +9,11 @@ from __future__ import annotations
 
 import json
 import logging
-from typing import Any, Dict, List, Optional
+from typing import Any, AsyncIterator, Dict, List, Optional
 
 import httpx
+from openai.types.chat import ChatCompletionChunk
+from pydantic import ValidationError
 
 from loong_agent.llm.base import ChatResponse, LLMProvider, ToolDefinition
 from loong_agent.types.messages import Message, ToolCall, Usage
@@ -64,6 +66,50 @@ class OpenAICompatibleProvider(LLMProvider):
         tools: Optional[List[ToolDefinition]] = None,
         **kwargs: Any,
     ) -> ChatResponse:
+        payload = self._build_payload(messages, tools, kwargs)
+        url = f"{self.base_url}/chat/completions"
+        logger.debug("LLM request -> %s", url)
+        response = await self._client.post(url, json=payload)
+        response.raise_for_status()
+        data = response.json()
+        return self._parse_response(data)
+
+    async def chat_completion_stream(
+        self,
+        messages: List[Message],
+        tools: Optional[List[ToolDefinition]] = None,
+        **kwargs: Any,
+    ) -> AsyncIterator[ChatCompletionChunk]:
+        """Stream native ``ChatCompletionChunk`` deltas over SSE."""
+        payload = self._build_payload(messages, tools, kwargs)
+        payload["stream"] = True
+        # Ask for token accounting where supported; servers that do not
+        # implement ``stream_options`` may ignore it, so usage can be absent.
+        payload.setdefault("stream_options", {"include_usage": True})
+
+        url = f"{self.base_url}/chat/completions"
+        logger.debug("LLM stream request -> %s", url)
+        async with self._client.stream("POST", url, json=payload) as response:
+            response.raise_for_status()
+            async for line in response.aiter_lines():
+                if not line or line.startswith(":"):
+                    continue
+                if not line.startswith("data:"):
+                    continue
+                data = line[len("data:"):].strip()
+                if data == "[DONE]":
+                    break
+                try:
+                    yield ChatCompletionChunk.model_validate_json(data)
+                except ValidationError as exc:
+                    logger.warning("Skipping malformed stream chunk: %s", exc)
+
+    def _build_payload(
+        self,
+        messages: List[Message],
+        tools: Optional[List[ToolDefinition]],
+        kwargs: Dict[str, Any],
+    ) -> Dict[str, Any]:
         payload: Dict[str, Any] = {
             "model": self.model,
             "messages": self._to_openai_messages(messages),
@@ -78,13 +124,7 @@ class OpenAICompatibleProvider(LLMProvider):
 
         payload.update(self.extra_kwargs)
         payload.update(kwargs)
-
-        url = f"{self.base_url}/chat/completions"
-        logger.debug("LLM request -> %s", url)
-        response = await self._client.post(url, json=payload)
-        response.raise_for_status()
-        data = response.json()
-        return self._parse_response(data)
+        return payload
 
     # -- serialization helpers ----------------------------------------------
     def _to_openai_messages(self, messages: List[Message]) -> List[Dict[str, Any]]:
@@ -151,7 +191,9 @@ class OpenAICompatibleProvider(LLMProvider):
                 args = json.loads(raw_args) if raw_args else {}
             except json.JSONDecodeError:
                 args = {"_raw": raw_args}
-            tool_calls.append(ToolCall(id=tc.get("id", ""), name=fn.get("name", ""), arguments=args))
+            tool_calls.append(
+                ToolCall(id=tc.get("id", ""), name=fn.get("name", ""), arguments=args)
+            )
 
         usage = Usage(
             prompt_tokens=usage_raw.get("prompt_tokens", 0),
