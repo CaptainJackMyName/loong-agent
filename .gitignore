@@ -31,3 +31,5 @@ htmlcov/
 Thumbs.db
 .idea/
 .vscode/
+
+uv.lock

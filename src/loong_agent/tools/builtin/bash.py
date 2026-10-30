@@ -3,13 +3,19 @@
 from __future__ import annotations
 
 import asyncio
-from typing import Optional
 
 from loong_agent.tools.base import tool
 
 
-@tool("Bash", "Execute a shell command and return stdout/stderr.")
-async def bash(command: str, timeout: float = 120.0, cwd: Optional[str] = None) -> str:
+@tool(name="Bash", description="Execute a shell command and return stdout/stderr.")
+async def bash(command: str, timeout: float = 120.0, cwd: str | None = None) -> str:
+    """Execute a shell command and return its stdout/stderr.
+
+    Args:
+        command: The shell command to execute.
+        timeout: Maximum seconds to wait for the command to finish.
+        cwd: Optional working directory for the command.
+    """
     try:
         proc = await asyncio.create_subprocess_shell(
             command,

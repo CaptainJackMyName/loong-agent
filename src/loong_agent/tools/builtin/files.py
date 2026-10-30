@@ -3,19 +3,23 @@
 from __future__ import annotations
 
 import re
-
 from pathlib import Path
-from typing import List, Optional
 
 from loong_agent.tools.base import tool
 
 
-@tool("Read", "Read a file from the local filesystem with optional line offset/limit.")
-async def read_file(
-    file_path: str,
-    offset: Optional[int] = None,
-    limit: Optional[int] = None,
-) -> str:
+@tool(
+    name="Read",
+    description="Read a file from the local filesystem with optional line offset/limit.",
+)
+async def read_file(file_path: str, offset: int | None = None, limit: int | None = None) -> str:
+    """Read a file from the local filesystem.
+
+    Args:
+        file_path: Path of the file to read.
+        offset: 1-based line number to start reading from.
+        limit: Maximum number of lines to return.
+    """
     path = Path(file_path).expanduser()
     if not path.exists():
         return f"Error: file not found: {file_path}"
@@ -39,8 +43,17 @@ async def read_file(
     return "\n".join(lines)
 
 
-@tool("Write", "Write a file to the local filesystem, creating parent directories as needed.")
+@tool(
+    name="Write",
+    description="Write a file to the local filesystem, creating parent directories as needed.",
+)
 async def write_file(file_path: str, content: str) -> str:
+    """Write content to a file, creating parent directories as needed.
+
+    Args:
+        file_path: Path of the file to write.
+        content: Full text content to write to the file.
+    """
     path = Path(file_path).expanduser()
     try:
         path.parent.mkdir(parents=True, exist_ok=True)
@@ -50,8 +63,15 @@ async def write_file(file_path: str, content: str) -> str:
     return f"Successfully wrote {len(content)} characters to {file_path}."
 
 
-@tool("Edit", "Perform an exact string replacement in an existing file.")
+@tool(name="Edit", description="Perform an exact string replacement in an existing file.")
 async def edit_file(file_path: str, old_string: str, new_string: str) -> str:
+    """Replace an exact string in an existing file.
+
+    Args:
+        file_path: Path of the file to edit.
+        old_string: Exact text to replace; must appear exactly once.
+        new_string: Replacement text.
+    """
     path = Path(file_path).expanduser()
     if not path.exists():
         return f"Error: file not found: {file_path}"
@@ -72,15 +92,22 @@ async def edit_file(file_path: str, old_string: str, new_string: str) -> str:
     return f"Successfully edited {file_path}."
 
 
-@tool("Grep", "Search file contents for a regular expression pattern.")
-async def grep(pattern: str, path: str = ".", glob: Optional[str] = None) -> str:
+@tool(name="Grep", description="Search file contents for a regular expression pattern.")
+async def grep(pattern: str, path: str = ".", glob: str | None = None) -> str:
+    """Search file contents for a regular expression pattern.
+
+    Args:
+        pattern: Regular expression to search for.
+        path: Directory or file to search in.
+        glob: Optional glob pattern restricting which files are searched.
+    """
     try:
         compiled = re.compile(pattern)
     except re.error as exc:
         return f"Error: invalid regex: {exc}"
 
     root = Path(path).expanduser()
-    matches: List[str] = []
+    matches: list[str] = []
     if root.is_file():
         files = [root]
     else:
@@ -101,8 +128,14 @@ async def grep(pattern: str, path: str = ".", glob: Optional[str] = None) -> str
     return "\n".join(matches[:200])
 
 
-@tool("Glob", "Find files matching a glob pattern.")
+@tool(name="Glob", description="Find files matching a glob pattern.")
 async def glob_files(pattern: str, path: str = ".") -> str:
+    """Find files matching a glob pattern.
+
+    Args:
+        pattern: Glob pattern such as ``*.py``.
+        path: Directory to search in.
+    """
     root = Path(path).expanduser()
     matches = sorted(str(p) for p in root.glob(pattern) if not p.name.startswith("."))
     if not matches:

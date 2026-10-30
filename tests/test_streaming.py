@@ -21,7 +21,7 @@ from loong_agent.tools import tool
 from loong_agent.types.messages import ToolCall, Usage
 
 
-@tool("echo", "Echo the given text back.")
+@tool(name="echo", description="Echo the given text back.")
 async def echo(text: str) -> str:
     return f"echo:{text}"
 
@@ -349,7 +349,7 @@ async def test_final_message_emitted_only_after_loop_exit():
     the single user-facing message item appears only after the tools ran."""
     order: list[str] = []
 
-    @tool("slow_echo", "Slow echo tool.")
+    @tool(name="slow_echo", description="Slow echo tool.")
     async def slow_echo(text: str) -> str:
         order.append("tool_executed")
         return text

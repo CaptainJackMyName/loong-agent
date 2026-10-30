@@ -7,10 +7,12 @@ requires-python = ">=3.10"
 license = { text = "MIT" }
 authors = [{ name = "loong-agent" }]
 dependencies = [
+    "griffe>=1.0",
     "httpx>=0.28.1",
     "opentelemetry-api>=1.44.0",
     "opentelemetry-sdk>=1.44.0",
     "openai>=3.41.0",
+    "pydantic>=2.14.2",
 ]
 
 [project.optional-dependencies]
